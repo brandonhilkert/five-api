@@ -23,22 +23,14 @@ class FiveApi < Sinatra::Base
     "hello worldasdf"
   end
 
-  get "/api/users/:id" do
-    user = User.find(params[:id])
-    {
-      name:               user.name,
-      screen_name:        user.screen_name,
-      profile_image_url:  user.profile_image_url,
-      wants:              user.wants,
-      success:            true
-
-    }.to_json
+  get "/api/me" do
+    user = User.first
+    { user: UserPresenter.new(user) }.to_json 
   end
 
-  put "/api/users/:id" do
-    user = User.first
-    response = user.update_attributes()
-    { success: response }.to_json
+  post "/api/users" do
+    user = User.create(params)
+    { user: user }.to_json
   end
 
   not_found { error_response "We're sorry, but we're unable to find the resource you're looking for." }
