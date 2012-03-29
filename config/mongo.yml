@@ -1,0 +1,14 @@
+defaults: &defaults
+  host: localhost
+  port: 27017
+  
+development:
+  <<: *defaults
+  database: five_development
+
+test:
+  <<: *defaults
+  database: five_test
+
+production:
+  uri: <%= ENV['mongo_uri'] %>
